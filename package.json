@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "new wetube project",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/server.js --delay 2",
+    "dev": "nodemon --exec babel-node src/init.js --delay 2",
     "start": "nodemon --exec babel-node src/server.js --delay 2"
   },
   "repository": {
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/kuroneko-s/wetube_2021#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^5.12.13",
     "morgan": "^1.10.0",
     "pug": "^3.0.2"
   },
