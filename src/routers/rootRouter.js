@@ -2,18 +2,25 @@ import express from "express";
 import {
   getJoin,
   getLogin,
-  logout,
   postJoin,
   postLogin,
 } from "../controller/usersController";
 import { home, search } from "../controller/videosController";
+import { publicOnlyMiddleware } from "../middlewares";
 
 // /
 const rooteRouter = express.Router();
 
-rooteRouter.route("/join").get(getJoin).post(postJoin);
-rooteRouter.route("/login").get(getLogin).post(postLogin);
-rooteRouter.get("/logout", logout);
+rooteRouter
+  .route("/join")
+  .all(publicOnlyMiddleware)
+  .get(getJoin)
+  .post(postJoin);
+rooteRouter
+  .route("/login")
+  .all(publicOnlyMiddleware)
+  .get(getLogin)
+  .post(postLogin);
 rooteRouter.get("/", home);
 rooteRouter.get("/search", search);
 

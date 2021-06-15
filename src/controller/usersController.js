@@ -1,5 +1,6 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
+import fetch from "node-fetch";
 
 export const getJoin = (req, res) => {
   return res.render("join", { pageTitle: "Join" });
@@ -42,14 +43,12 @@ export const postJoin = async (req, res) => {
   }
 };
 
-export const edit = (req, res) => res.send("Edit");
-
 export const getLogin = (req, res) => {
   return res.render("login", { pageTitle: "Login" });
 };
 export const postLogin = async (req, res) => {
   const { username, password } = req.body;
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username, socuialOnly: false });
   const pageTitle = "Login";
 
   if (!user) {
@@ -75,8 +74,7 @@ export const postLogin = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  req.session.loggedIn = false;
-  req.session.user = null;
+  req.session.destroy();
   return res.redirect("/");
 };
 export const see = (req, res) => {
@@ -84,3 +82,144 @@ export const see = (req, res) => {
   res.send("See User");
 };
 export const deleteUser = (req, res) => res.send("Delete User");
+
+export const startGithubLogin = (req, res) => {
+  const baseURL = "https://github.com/login/oauth/authorize";
+  const config = {
+    client_id: process.env.GIT_CLIENT,
+    allow_signup: false,
+    scope: "read:user user:email",
+  };
+  // URLSearchParams를 쓰면 Object를 URL식으로 바꿔버린다.
+  const params = new URLSearchParams(config).toString();
+
+  return res.redirect(`${baseURL}?${params}`);
+};
+
+export const finishGithubLogin = async (req, res) => {
+  const baseURL = "https://github.com/login/oauth/access_token";
+  const config = {
+    client_id: process.env.GIT_CLIENT,
+    client_secret: process.env.GIT_SECRET,
+    code: req.query.code,
+  };
+
+  const params = new URLSearchParams(config).toString();
+
+  const tokenRequest = await (
+    await fetch(`${baseURL}?${params}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+  ).json();
+
+  // access token 에서 추가적인 정보들을 읽어올 수 있다.
+  if ("access_token" in tokenRequest) {
+    const { access_token } = tokenRequest;
+    // /user/emails
+    const apiUrl = "https://api.github.com";
+    const userData = await (
+      await fetch(`${apiUrl}/user`, {
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+
+    // access token을 이용해서 email List 받아오기
+    const emailData = await (
+      await fetch(`${apiUrl}/user/emails`, {
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+    const emailObj = emailData.find(
+      (email) => email.primary === true && email.verified === true
+    );
+
+    if (!emailObj) {
+      // set notification
+      return res.redirect("/login");
+    }
+
+    let user = await User.findOne({ email: emailObj.email });
+    if (!user) {
+      // 해당 이메일에 해당하는 계정이 없으니깐 생성
+      // create an account
+      user = await User.create({
+        name: userData.name,
+        email: emailObj.email,
+        socuialOnly: true,
+        username: userData.login,
+        password: "",
+        location: userData.location,
+        avatarUrl: userData.avatar_url,
+      });
+    }
+    req.session.loggedIn = true;
+    req.session.user = user;
+    return res.redirect("/");
+  } else {
+    return res.redirect("/login");
+  }
+};
+
+export const getEdit = (req, res) => {
+  return res.render("edit-profile", { pageTitle: "Edit Profile" });
+};
+
+export const postEdit = async (req, res) => {
+  console.log(req.session.user);
+  console.log(req.body);
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { name, email, username, location },
+  } = req;
+
+  // 수정된 값 찾기
+  const result = changedValue(req.session.user, req.body, [
+    "name",
+    "email",
+    "username",
+    "location",
+  ]);
+  console.log(result);
+
+  const exists = await User.exists({ $or: result });
+  if (exists) {
+    return res.render("edit-profile", {
+      pageTitle: "Edit Profile",
+      errorMessage: "Duplicate Value",
+    });
+  }
+
+  const updateUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      email,
+      username,
+      location,
+    },
+    {
+      new: true, // 업데이트 된 놈을 리턴해줌
+    }
+  );
+
+  req.session.user = updateUser;
+
+  return res.redirect("/users/edit");
+};
+
+const changedValue = (user, body, checkVal) => {
+  let arr = [];
+  checkVal
+    .filter((str) => user[str] !== body[str])
+    .map((result) => arr.push({ [result]: body[result] }));
+  return arr;
+};
