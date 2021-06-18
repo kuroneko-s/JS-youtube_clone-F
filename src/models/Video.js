@@ -22,6 +22,7 @@ const videoSchma = new mongoose.Schema({
     views: { type: Number, default: 0, required: true },
     rating: { type: Number, default: 0, required: true },
   },
+  fileUrl: { type: String, required: true },
 });
 
 // static method ( function )

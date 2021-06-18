@@ -176,11 +176,13 @@ export const postEdit = async (req, res) => {
   console.log(req.body);
   const {
     session: {
-      user: { _id },
+      user: { _id, avatarUrl },
     },
     body: { name, email, username, location },
+    file,
   } = req;
 
+  console.log(file);
   // 수정된 값 찾기
   const result = changedValue(req.session.user, req.body, [
     "name",
@@ -188,19 +190,21 @@ export const postEdit = async (req, res) => {
     "username",
     "location",
   ]);
-  console.log(result);
 
-  const exists = await User.exists({ $or: result });
-  if (exists) {
-    return res.render("edit-profile", {
-      pageTitle: "Edit Profile",
-      errorMessage: "Duplicate Value",
-    });
+  if (result.length > 0) {
+    const exists = await User.exists({ $or: result });
+    if (exists) {
+      return res.render("edit-profile", {
+        pageTitle: "Edit Profile",
+        errorMessage: "Duplicate Value",
+      });
+    }
   }
 
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
+      avatarUrl: file ? file.path : avatarUrl,
       name,
       email,
       username,
@@ -222,4 +226,46 @@ const changedValue = (user, body, checkVal) => {
     .filter((str) => user[str] !== body[str])
     .map((result) => arr.push({ [result]: body[result] }));
   return arr;
+};
+
+export const getChangePassword = (req, res) => {
+  if (req.session.user.socuialOnly) {
+    return res.redirect("/");
+  }
+  return res.render("users/change-password", { pageTitle: "change Password" });
+};
+export const postChangePassword = async (req, res) => {
+  // send notification
+  const {
+    session: {
+      user: { _id, password },
+    },
+    body: { oldPassword, newPassword, newPasswordConfirmation },
+  } = req;
+
+  if (newPassword !== newPasswordConfirmation) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "change Password",
+      errorMessage: "The password does not match the confirmation",
+    });
+  }
+
+  const ok = bcrypt.compareSync(oldPassword, password);
+  if (!ok) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "change Password",
+      errorMessage: "The current password is incorrect",
+    });
+  }
+
+  const user = await User.findById(_id);
+  console.log(user.password);
+  user.password = newPassword;
+  console.log(user.password);
+  await user.save();
+  console.log(user.password);
+
+  req.session.user = user;
+
+  return res.redirect("/users/logout");
 };
