@@ -1,4 +1,5 @@
 import User from "../models/User";
+import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
@@ -77,9 +78,19 @@ export const logout = (req, res) => {
   req.session.destroy();
   return res.redirect("/");
 };
-export const see = (req, res) => {
-  console.log(req.params);
-  res.send("See User");
+// 로그아웃 된 상태에서도 접근이 가능함
+export const see = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id).populate("videos");
+
+  if (!user) {
+    return res.status(404).render("404", { pageTitle: "User Not Found" });
+  }
+
+  return res.render("users/profile", {
+    pageTitle: user.name,
+    user,
+  });
 };
 export const deleteUser = (req, res) => res.send("Delete User");
 

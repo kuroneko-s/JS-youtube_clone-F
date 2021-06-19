@@ -4,7 +4,7 @@
   "description": "new wetube project",
   "scripts": {
     "dev": "nodemon --exec babel-node src/init.js --delay 2",
-    "start": "nodemon --exec babel-node src/server.js --delay 2"
+    "assets": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,14 @@
     "@babel/core": "^7.14.3",
     "@babel/node": "^7.14.2",
     "@babel/preset-env": "^7.14.4",
-    "nodemon": "^2.0.7"
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.6",
+    "mini-css-extract-plugin": "^1.6.0",
+    "nodemon": "^2.0.7",
+    "sass": "^1.35.1",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.39.1",
+    "webpack-cli": "^4.7.2"
   }
 }
