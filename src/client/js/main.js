@@ -1,3 +1,4 @@
 import "../scss/styles.scss";
 
-alert("Hi");
+const form = document.querySelector(".search__form");
+form.preventDefault();

@@ -2,15 +2,18 @@ extends base
 
 block content
     if errorMessage
-        p=errorMessage  
-    form(method="POST")
+        p.errorMessage=errorMessage  
+    form(method="POST").edit-profile__form
         input(name="username", type="text", required, placeholder="Username")
         input(name="password", type="password", required, placeholder="Passowrd")
         input(type="submit", value="Login")
         br
-        a(href="/users/github/start") Continue with Github &rarr;
+    div.social__div
+        a(href="/users/github/start")
+            span.fab.fa-github-square.git__logo
+            |   Continue with Github &rarr;
     hr
-    div 
+    div.social__div
         span Don't have an account?
         br
         a(href="/join") Create in now &rarr;

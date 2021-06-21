@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   entry: "./src/client/js/main.js",
   mode: "development",
+  watch: true, // nodemon 처럼 동작
   plugins: [
     new MiniCssExtractPlugin({
       filename: "css/styles.css",
@@ -13,6 +14,7 @@ module.exports = {
   output: {
     filename: "js/main.js",
     path: path.resolve(__dirname, "assets"),
+    clean: true, // 해당 폴더 삭제 해줌. but! 재시작할때만 적용됨
   },
   module: {
     rules: [

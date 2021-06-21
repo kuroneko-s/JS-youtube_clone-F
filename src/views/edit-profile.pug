@@ -2,16 +2,22 @@ extends base
 
 block content 
     if errorMessage
-        p=errorMessage
-    img(src="/" + loggedInUser.avatarUrl, width="720", height="480")
-    form(method="POST" enctype="multipart/form-data")
+        p.errorMessage=errorMessage
+    div.edit-profile__avatar
+        img(src=loggedInUser.avatarUrl)
+    form(method="POST" enctype="multipart/form-data").edit-profile__form
         label(for="avatar") Avatar
         input(type="file", id="avatar", name="avatar", accept="image/*")
-        input(name="name", type="text", required, placeholder="Name", value=loggedInUser.name)
-        input(name="email", type="email", required, placeholder="Emial", value=loggedInUser.email)
-        input(name="username", type="text", required, placeholder="Username", value=loggedInUser.username)
-        input(name="location", type="text", required, placeholder="Location", value=loggedInUser.location)
-        input(type="submit", value="Update Profile")
+        label(for="name") Name
+        input(name="name",id="name", type="text", required, placeholder="Name", value=loggedInUser.name)
+        label(for="email") Email
+        input(name="email",id="email", type="email", required, placeholder="Emial", value=loggedInUser.email)
+        label(for="username") Username
+        input(name="username",id="username", type="text", required, placeholder="Username", value=loggedInUser.username)
+        label(for="location") Location
+        input(name="location",id="location", type="text", required, placeholder="Location", value=loggedInUser.location)
+        button
+            |   Update Profile
         
         if !loggedInUser.socuialOnly
             hr

@@ -1,9 +1,9 @@
 extends base.pug
 include mixins/video
 
-
 block content
-    each item in videos
-        +video(item)
-    else
-        div Nothing
+    div.video-grid
+        each item in videos
+            +video(item)
+        else
+            div Nothing

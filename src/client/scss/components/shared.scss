@@ -1,0 +1,11 @@
+.video-grid {
+  display: grid;
+  gap: 35px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.errorMessage {
+  display: block;
+  text-align: center;
+  color: $red;
+  font-size: 25px;
+}

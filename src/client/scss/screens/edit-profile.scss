@@ -1,0 +1,40 @@
+.edit-profile__avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 45px;
+  img {
+    max-width: 420px;
+  }
+}
+
+.edit-profile__form {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  width: 45%;
+  label {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  input,
+  button {
+    margin-bottom: 15px;
+    border-radius: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: $white;
+    color: $bg;
+    padding: 15px 20px;
+    font-size: 16px;
+  }
+  input {
+    &::placeholder {
+      color: $bg;
+      opacity: 0.4;
+    }
+  }
+  button {
+    margin-top: 22px;
+    font-weight: 600;
+  }
+}

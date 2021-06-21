@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "new wetube project",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/init.js --delay 2",
-    "assets": "webpack --config webpack.config.js"
+    "dev:server": "nodemon",
+    "dev:assets": "webpack"
   },
   "repository": {
     "type": "git",
