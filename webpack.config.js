@@ -3,7 +3,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // path.resolve -> 문자열들을 합쳐서 경로로 만들어줌 ( 걍 문자열 합쳐주는거인듯 )
 module.exports = {
-  entry: "./src/client/js/main.js",
+  entry: {
+    main: "./src/client/js/main.js",
+    videoPlayer: "/src/client/js/videoPlayer.js",
+  },
   mode: "development",
   watch: true, // nodemon 처럼 동작
   plugins: [
@@ -12,7 +15,7 @@ module.exports = {
     }),
   ],
   output: {
-    filename: "js/main.js",
+    filename: "js/[name].js",
     path: path.resolve(__dirname, "assets"),
     clean: true, // 해당 폴더 삭제 해줌. but! 재시작할때만 적용됨
   },
