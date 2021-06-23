@@ -155,3 +155,16 @@ export const postUpload = async (req, res) => {
   await video.save(); // Model로 작성했으니깐 save() 동작한듯
   */
 };
+
+export const registerView = async (req, res) => {
+  const { id } = req.params;
+  const video = await Video.findById(id);
+
+  if (!video) {
+    return res.sendStatus(404);
+  }
+
+  video.meta.views = video.meta.views + 1;
+  await video.save();
+  return res.sendStatus(200);
+};
