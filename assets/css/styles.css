@@ -363,6 +363,28 @@ footer {
   margin-right: 5px;
 }
 
+.video__box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.video__box video {
+  max-width: 720px;
+  max-height: 420px;
+}
+.video__box button {
+  margin-top: 20px;
+  margin-bottom: 15px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: #ecf0f1;
+  color: red;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 html {
   min-height: 100% !important;
   height: 100%;
