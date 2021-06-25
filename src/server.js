@@ -1,12 +1,13 @@
 import express from "express";
 import morgan from "morgan";
+import flash from "express-flash";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/usersRouter";
 import videoRouter from "./routers/videosRouter";
-import { localsMiddleware } from "./middlewares";
 import apiRouter from "./routers/apiRouter";
+import { localsMiddleware } from "./middlewares";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.set("views", process.cwd() + "/src/views");
 
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // create session
 app.use(
@@ -45,6 +47,8 @@ app.get("/add-one", (req, res, next) => {
   return res.send(`${req.session.id} /  / ${req.session.potato}`);
 });
 */
+// flash() 이후부터 req.flash 사용이 가능해진다.
+app.use(flash());
 app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads"));
 app.use("/static", express.static("assets"));

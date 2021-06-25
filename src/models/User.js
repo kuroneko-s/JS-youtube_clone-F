@@ -10,6 +10,12 @@ const userSchema = mongoose.Schema({
   location: { type: String, default: "Seoul" },
   avatarUrl: String,
   videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
 });
 
 userSchema.pre("save", async function () {

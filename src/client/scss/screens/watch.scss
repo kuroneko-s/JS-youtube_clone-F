@@ -1,0 +1,60 @@
+.video__add-comments {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 25px;
+  width: 50%;
+  padding: 20px 45px;
+  border: 1px solid rgba(200, 198, 210, 0.4);
+  border-radius: 9px;
+  .video__comment-form {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+
+    textarea {
+      border-radius: 9px;
+      font-size: 18px;
+      padding: 5px 10px;
+    }
+    button {
+      margin-top: 20px;
+      border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background-color: $white;
+      color: black;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+}
+
+.video__comments {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0 auto;
+  margin-top: 20px;
+  .video__comment {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 10px 18px;
+    border-radius: 9px;
+    background-color: white;
+    color: black;
+    i {
+      margin-right: 7px;
+    }
+    .video__comment-text {
+      flex: 1;
+    }
+    .video__comment-remove {
+      cursor: pointer;
+    }
+  }
+}

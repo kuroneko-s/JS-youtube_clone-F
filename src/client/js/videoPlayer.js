@@ -128,13 +128,13 @@ const handleEnded = (e) => {
 };
 
 const handleKeydown = (e) => {
-  if (e.keyCode === 32) {
-    e.preventDefault();
-    handlePlayClick();
-  } else if (e.keyCode === 70) {
-    e.preventDefault();
-    handleFullscreen();
-  }
+  // if (e.keyCode === 32) {
+  //   e.preventDefault();
+  //   handlePlayClick();
+  // } else if (e.keyCode === 70) {
+  //   e.preventDefault();
+  //   handleFullscreen();
+  // }
 };
 
 playBtn.addEventListener("click", handlePlayClick);

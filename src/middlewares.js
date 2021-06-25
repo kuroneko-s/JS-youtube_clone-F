@@ -12,18 +12,23 @@ export const localsMiddleware = (req, res, next) => {
   next();
 };
 
+// 로그인이 안되어있는데 접근하려고 할때 컷!
 export const protectorMiddleware = (req, res, next) => {
   if (req.session.loggedIn) {
     return next();
   } else {
+    req.flash("error", "Not authorized");
     return res.redirect("/login");
   }
 };
 
+// 로그인이 되어있는데 접근하려고 할때 컷!
 export const publicOnlyMiddleware = (req, res, next) => {
   if (!req.session.loggedIn) {
     return next();
   } else {
+    // flash -> locals 값 추가해준다.
+    req.flash("error", "Not authorized");
     return res.redirect("/");
   }
 };

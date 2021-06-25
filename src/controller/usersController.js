@@ -1,5 +1,4 @@
 import User from "../models/User";
-import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
@@ -75,6 +74,7 @@ export const postLogin = async (req, res) => {
 };
 
 export const logout = (req, res) => {
+  req.flash("info", "bye bye");
   req.session.destroy();
   return res.redirect("/");
 };
