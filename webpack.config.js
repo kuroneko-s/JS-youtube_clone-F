@@ -9,8 +9,7 @@ module.exports = {
     recorder: BASE_JS + "recorder.js",
     commentSection: BASE_JS + "commentSection.js",
   },
-  mode: "development",
-  watch: true, // nodemon 처럼 동작
+  // watch: true, // nodemon 처럼 동작
   plugins: [
     new MiniCssExtractPlugin({
       filename: "css/styles.css",
