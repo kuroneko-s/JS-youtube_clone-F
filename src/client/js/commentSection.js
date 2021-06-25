@@ -51,7 +51,6 @@ const handleRemove = async (e) => {
   const li = e.target.parentElement;
   const { id } = li.dataset;
   // html에서 삭제
-  console.log(li);
   li.remove();
   // fetch 써서 해당 댓글 삭제
   await fetch(`/api/comment/${id}`, {
