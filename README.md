@@ -1,21 +1,21 @@
-# Wetube_2021
+# 유투브클론코딩_2021   
+https://nomadcoders.co/wetube/lobby
+노마드 코더님의 강의
 
-구버전 영상이 사라져서 강제로 진행중
+global router   
+/ -> Home   
+/join -> Join   
+/login -> Login   
+/search -> Search   
 
-global router
-/ -> Home
-/join -> Join
-/login -> Login
-/search -> Search
+user router   
+/users/:id -> See User    
+/users/logout -> Log Out    
+/users/edit -> Edit my Profile ( Login )    
+/users/remove -> Delete my Profile ( Login )    
 
-user router
-/users/:id -> See User
-/users/logout -> Log Out
-/users/edit -> Edit my Profile ( Login )
-/users/remove -> Delete my Profile ( Login )
-
-video router
-/videos/:id -> See Video
-/videos/:id/edit -> Edit my Video
-/videos/:id/delete -> Delete my Video
-/videos/upload -> Upload Video
+video router  
+/videos/:id -> See Video  
+/videos/:id/edit -> Edit my Video 
+/videos/:id/delete -> Delete my Video 
+/videos/upload -> Upload Video  
