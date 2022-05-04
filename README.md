@@ -14,8 +14,8 @@ user router
 /users/edit -> Edit my Profile ( Login )    
 /users/remove -> Delete my Profile ( Login )    
 
-video router  
-/videos/:id -> See Video  
-/videos/:id/edit -> Edit my Video 
-/videos/:id/delete -> Delete my Video 
-/videos/upload -> Upload Video  
+video router    
+/videos/:id -> See Video    
+/videos/:id/edit -> Edit my Video   
+/videos/:id/delete -> Delete my Video   
+/videos/upload -> Upload Video    
